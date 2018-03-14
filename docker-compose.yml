@@ -1,0 +1,9 @@
+version: '2'
+services:
+  test:
+    build: .
+    image: proxyprxorg
+    command: test
+    volumes:
+      - ./index.js:/app/index.js
+      - ./package.json:/app/package.json

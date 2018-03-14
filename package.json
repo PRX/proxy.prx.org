@@ -9,6 +9,10 @@
   "scripts": {
     "start": "echo TODO",
     "test": "jest",
+    "build": "npm run build-sync && npm run build-prune && npm run build-zip",
+    "build-sync": "rsync -crl --delete --exclude-from .lambdaignore . build",
+    "build-prune": "cd build && npm prune --production > /dev/null",
+    "build-zip": "rm -f build.zip && cd build && zip -rq ../build.zip ."
   },
   "repository": "git@github.com:PRX/proxy.prx.org.git",
   "keywords": [
@@ -24,5 +28,10 @@
   "homepage": "https://github.com/PRX/proxy.prx.org#readme",
   "devDependencies": {
     "jest": "^22.4.2"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build/"
+    ]
   }
 }

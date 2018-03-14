@@ -1,0 +1,28 @@
+{
+  "name": "proxy.prx.org",
+  "version": "0.0.1",
+  "engines": {
+    "node": "6.10.3"
+  },
+  "description": "Top-level proxy server for www.prx.org",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo TODO",
+    "test": "jest",
+  },
+  "repository": "git@github.com:PRX/proxy.prx.org.git",
+  "keywords": [
+    "lambda",
+    "prx",
+    "proxy"
+  ],
+  "author": "cavis <ryan@prx.org>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/PRX/proxy.prx.org/issues"
+  },
+  "homepage": "https://github.com/PRX/proxy.prx.org#readme",
+  "devDependencies": {
+    "jest": "^22.4.2"
+  }
+}

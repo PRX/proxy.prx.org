@@ -7,7 +7,7 @@
   "description": "Top-level proxy server for www.prx.org",
   "main": "index.js",
   "scripts": {
-    "start": "echo TODO",
+    "start": "nodemon dev-server.js",
     "test": "jest",
     "build": "npm run build-sync && npm run build-prune && npm run build-zip",
     "build-sync": "rsync -crl --delete --exclude-from .lambdaignore . build",
@@ -27,7 +27,11 @@
   },
   "homepage": "https://github.com/PRX/proxy.prx.org#readme",
   "devDependencies": {
-    "jest": "^22.4.2"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.2",
+    "type-is": "^1.6.16"
   },
   "jest": {
     "modulePathIgnorePatterns": [

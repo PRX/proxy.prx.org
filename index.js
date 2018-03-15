@@ -69,7 +69,16 @@ exports.handler = (event, context, callback) => {
 function keysToLowerCase(obj) {
   if (obj) {
     let lower = {};
-    Object.keys(obj || {}).forEach(k => lower[k.toLowerCase()] = obj[k]);
+    Object.keys(obj || {}).forEach(k => {
+      if (typeof(obj[k]) === 'string') {
+        lower[k.toLowerCase()] = obj[k];
+      } else if (Array.isArray(obj[k]) && obj[k].length === 1 && typeof obj[k][0] === 'string') {
+        lower[k.toLowerCase()] = obj[k][0];
+      } else {
+        console.warn('WARN: unknown header value', k, typeof obj[k], obj[k]);
+        lower[k.toLowerCase()] = obj[k];
+      }
+    });
     return lower;
   } else {
     return obj;

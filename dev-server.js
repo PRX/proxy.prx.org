@@ -1,10 +1,13 @@
 'use strict';
 
+require('dotenv').config()
 const handler = require('./index');
 const express = require('express');
 const bodyParser = require('body-parser');
 const typeis = require('type-is');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
 // proxy request body
 app.use(bodyParser.raw({type: '*/*'}));
@@ -29,6 +32,9 @@ app.use((req, res) => {
     } else if (!data.statusCode) {
       res.status(500).send(`Lambda returned no statusCode: ${JSON.stringify(data)}`);
     } else {
+      if (data.headers && data.headers.location) {
+        data.headers.location = data.headers.location.replace(/^http:\/\/localhost\//, `http://localhost:${port}/`);
+      }
       res.status(data.statusCode);
       res.set(data.headers || {});
       if (data.body && data.isBase64Encoded) {
@@ -46,6 +52,5 @@ app.use((req, res) => {
 });
 
 // listener
-const port = process.env.PORT || 3000;
-app.listen(process.env.PORT || 3000);
+app.listen(port);
 console.log(`Express listening on port ${port}...`);

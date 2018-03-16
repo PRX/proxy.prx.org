@@ -38,5 +38,8 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/build/"
     ]
+  },
+  "dependencies": {
+    "binary-case": "^1.1.3"
   }
 }

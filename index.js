@@ -1,6 +1,7 @@
 'use strict';
 
 const https = require('https');
+const binaryCase = require('binary-case');
 
 /**
  * Proxy requests here and there
@@ -65,18 +66,25 @@ exports.handler = (event, context, callback) => {
   req.end();
 };
 
-// consistently lowercase header keys
+// consistently lowercase header keys, except for this set-cookie hack
+// https://forums.aws.amazon.com/thread.jspa?threadID=205782
 function keysToLowerCase(obj) {
   if (obj) {
     let lower = {};
     Object.keys(obj || {}).forEach(k => {
-      if (typeof(obj[k]) === 'string') {
-        lower[k.toLowerCase()] = obj[k];
-      } else if (Array.isArray(obj[k]) && obj[k].length === 1 && typeof obj[k][0] === 'string') {
-        lower[k.toLowerCase()] = obj[k][0];
+      const key = k.toLowerCase();
+      const val = obj[k];
+      if (typeof(val) === 'string') {
+        lower[key] = val;
+      } else if (Array.isArray(val) && val.length === 1) {
+        lower[key] = val[0];
+      } else if (Array.isArray(val)) {
+        const iterator = binaryCase.iterator(key);
+        val.forEach(subVal => {
+          lower[iterator.next().value] = subVal;
+        });
       } else {
         console.warn('WARN: unknown header value', k, typeof obj[k], obj[k]);
-        lower[k.toLowerCase()] = obj[k];
       }
     });
     return lower;

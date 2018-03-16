@@ -36,12 +36,10 @@ app.use((req, res) => {
         data.headers.location = data.headers.location.replace(/^http:\/\/localhost\//, `http://localhost:${port}/`);
       }
       res.status(data.statusCode);
-      res.set(data.headers || {});
+      res.set(fixMixedCaseHeaders(data.headers || {}));
       if (data.body && data.isBase64Encoded) {
         const buff = Buffer.from(data.body, 'base64')
         res.send(buff);
-        // res.write(buff, 'binary');
-        // res.end(undefined, 'binary');
       } else if (data.body) {
         res.send(data.body);
       } else {
@@ -50,6 +48,23 @@ app.use((req, res) => {
     }
   });
 });
+
+// undo our api-gateway headers hack
+function fixMixedCaseHeaders(headers) {
+  let result = {};
+  Object.keys(headers).forEach(k => {
+    const key = k.toLowerCase();
+    const val = headers[k];
+    if (result[key] && Array.isArray(result[key])) {
+      result[key].push(val);
+    } else if (result[key]) {
+      result[key] = [result[key], val];
+    } else {
+      result[key] = val;
+    }
+  });
+  return result;
+}
 
 // listener
 app.listen(port);

@@ -40,6 +40,7 @@
     ]
   },
   "dependencies": {
-    "binary-case": "^1.1.3"
+    "binary-case": "^1.1.3",
+    "cookie": "^0.3.1"
   }
 }

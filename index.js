@@ -26,11 +26,11 @@ exports.handler = function handler(event, context, callback) {
   } else {
     corporate.request(event).then(resp => {
       if (resp.originalPath) {
-        console.log(`[INFO] ${resp.statusCode} ${resp.method} ${resp.originalPath} -> ${resp.path}`);
+        console.log(`[INFO] ${resp.status} ${resp.method} ${resp.originalPath} -> ${resp.path}`);
       } else {
-        console.log(`[INFO] ${resp.statusCode} ${resp.method} ${resp.path}`);
+        console.log(`[INFO] ${resp.status} ${resp.method} ${resp.path}`);
       }
-      callback(null, resp);
+      callback(null, {statusCode: resp.status, headers: resp.headers, body: resp.body, isBase64Encoded: true});
     }).catch(err => {
       console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
       console.error(err);

@@ -5,7 +5,14 @@ const Redirect = require('./lib/redirect');
 const util = require('./lib/util');
 
 const corporate = new Proxy(process.env.CORPORATE_HOST || 'corporate.prx.tech');
+const oauth = new Proxy(process.env.EXCHANGE_HOST || 'www.prx.org');
 const exchange = new Redirect(process.env.EXCHANGE_HOST || 'exchange.prx.org');
+const oauthPaths = [
+  /^\/oauth(\/.*)?/,
+  /^\/oid(\/.*)?/,
+  /^\/sessions(\/.*)?/,
+  /^\/api(\/.*)?/,
+];
 const exchangePaths = [
   /^\/pieces\/([^\/]+)\/?$/,
   /^\/accounts\/([^\/]+)\/?$/,
@@ -20,7 +27,16 @@ const exchangePaths = [
 exports.handler = function handler(event, context, callback) {
   // const loggedIn = util.isLoggedIn(event.headers['Cookie']);
   // const crawler = util.isCrawler(event.headers['User-Agent']);
-  if (exchangePaths.some(p => p.test(event.path))) {
+  if (oauthPaths.some(p => p.test(event.path))) {
+    oauth.request(event).then(resp => {
+      console.log(`[INFO] ${resp.status} ${resp.method} ${resp.path}`);
+      callback(null, {statusCode: resp.status, headers: resp.headers, body: resp.body, isBase64Encoded: true});
+    }).catch(err => {
+      console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
+      console.error(err);
+      callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
+    });
+  } else if (exchangePaths.some(p => p.test(event.path))) {
     console.log(`[INFO] 302 ${event.httpMethod} ${event.path}`);
     callback(null, exchange.redirect(event));
   } else {

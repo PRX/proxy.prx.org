@@ -11,7 +11,8 @@ const oauthPaths = [
   /^\/oauth(\/.*)?/,
   /^\/oid(\/.*)?/,
   /^\/sessions(\/.*)?/,
-  /^\/api(\/.*)?/,
+  /^\/api\/(v1|v2)(\/.*)?/,
+  /^\/me\/?/,
 ];
 const exchangePaths = [
   /^\/pieces\/([^\/]+)\/?$/,

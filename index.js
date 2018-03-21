@@ -5,7 +5,7 @@ const Redirect = require('./lib/redirect');
 const util = require('./lib/util');
 
 const corporate = new Proxy(process.env.CORPORATE_HOST || 'corporate.prx.tech');
-const oauth = new Proxy(process.env.EXCHANGE_HOST || 'www.prx.org');
+const oauth = new Proxy(process.env.EXCHANGE_HOST || 'exchange.prx.org');
 const exchange = new Redirect(process.env.EXCHANGE_HOST || 'exchange.prx.org');
 const oauthPaths = [
   /^\/oauth(\/.*)?/,

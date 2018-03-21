@@ -9,7 +9,7 @@ const oauth = new Proxy(process.env.EXCHANGE_HOST || 'exchange.prx.org');
 const exchange = new Redirect(process.env.EXCHANGE_HOST || 'exchange.prx.org');
 const oauthPaths = [
   /^\/oauth(\/.*)?/,
-  /^\/oid(\/.*)?/,
+  /^\/sso(\/.*)?/,
   /^\/sessions(\/.*)?/,
   /^\/api\/(v1|v2)(\/.*)?/,
   /^\/me\/?/,

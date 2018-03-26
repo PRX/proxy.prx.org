@@ -16,6 +16,7 @@ const oauthPaths = [
 ];
 const exchangePaths = [
   /^\/pieces\/([^\/]+)\/?$/,
+  /^\/p\/([^\/]+)\/?$/,
   /^\/accounts\/([^\/]+)\/?$/,
   /^\/group_accounts\/([^\/]+)\/?$/,
   /^\/station_accounts\/([^\/]+)\/?$/,

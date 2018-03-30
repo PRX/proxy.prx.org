@@ -3,25 +3,12 @@
 const Proxy = require('./lib/proxy');
 const Redirect = require('./lib/redirect');
 const util = require('./lib/util');
+const exchangeProxyRoutes = require('./routes/exchange-proxy');
+const exchangeRedirectRoutes = require('./routes/exchange-redirect');
 
 const corporate = new Proxy(process.env.CORPORATE_HOST || 'corporate.prx.tech');
 const oauth = new Proxy(process.env.EXCHANGE_HOST || 'exchange.prx.org');
 const exchange = new Redirect(process.env.EXCHANGE_HOST || 'exchange.prx.org');
-const oauthPaths = [
-  /^\/oauth(\/.*)?/,
-  /^\/sso(\/.*)?/,
-  /^\/sessions(\/.*)?/,
-  /^\/api\/(v1|v2)(\/.*)?/,
-  /^\/me\/?/,
-];
-const exchangePaths = [
-  /^\/pieces\/([^\/]+)\/?$/,
-  /^\/p\/([^\/]+)\/?$/,
-  /^\/accounts\/([^\/]+)\/?$/,
-  /^\/group_accounts\/([^\/]+)\/?$/,
-  /^\/station_accounts\/([^\/]+)\/?$/,
-  /^\/users\/([^\/]+)\/?$/,
-];
 
 /**
  * Proxy requests here and there
@@ -29,7 +16,7 @@ const exchangePaths = [
 exports.handler = function handler(event, context, callback) {
   // const loggedIn = util.isLoggedIn(event.headers['Cookie']);
   // const crawler = util.isCrawler(event.headers['User-Agent']);
-  if (oauthPaths.some(p => p.test(event.path))) {
+  if (exchangeProxyRoutes.some(p => p.test(event.path))) {
     oauth.request(event).then(resp => {
       console.log(`[INFO] ${resp.status} ${resp.method} ${resp.path}`);
       callback(null, {statusCode: resp.status, headers: resp.headers, body: resp.body, isBase64Encoded: true});
@@ -38,7 +25,7 @@ exports.handler = function handler(event, context, callback) {
       console.error(err);
       callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
     });
-  } else if (exchangePaths.some(p => p.test(event.path))) {
+  } else if (exchangeRedirectRoutes.some(p => p.test(event.path))) {
     console.log(`[INFO] 302 ${event.httpMethod} ${event.path}`);
     callback(null, exchange.redirect(event));
   } else {

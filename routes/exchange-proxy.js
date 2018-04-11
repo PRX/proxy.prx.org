@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Paths proxied to exchange
  */

@@ -3,43 +3,49 @@
 const Proxy = require('./lib/proxy');
 const Redirect = require('./lib/redirect');
 const util = require('./lib/util');
-const exchangeProxyRoutes = require('./routes/exchange-proxy');
-const exchangeRedirectRoutes = require('./routes/exchange-redirect');
 
-const corporate = new Proxy(process.env.CORPORATE_HOST || 'corporate.prx.tech');
-const oauth = new Proxy(process.env.EXCHANGE_HOST || 'exchange.prx.org');
-const exchange = new Redirect(process.env.EXCHANGE_HOST || 'exchange.prx.org');
+const EXCHANGE_HOST = process.env.EXCHANGE_HOST || 'exchange.prx.org';
+const LISTEN_HOST = process.env.LISTEN_HOST || 'beta.prx.org';
+const CORPORATE_HOST = process.env.CORPORATE_HOST || 'corporate.prx.tech';
+const LISTEN_REWRITE = require('./routes/listen-rewrite');
+const ROUTES = [
+  [require('./routes/exchange-proxy'), new Proxy(EXCHANGE_HOST)],
+  [require('./routes/listen-redirect'), new Redirect(LISTEN_HOST, LISTEN_REWRITE)],
+  [require('./routes/exchange-redirect'), new Redirect(EXCHANGE_HOST)],
+  [[/./], new Proxy(CORPORATE_HOST)],
+];
 
 /**
  * Proxy requests here and there
  */
 exports.handler = function handler(event, context, callback) {
-  // const loggedIn = util.isLoggedIn(event.headers['Cookie']);
-  // const crawler = util.isCrawler(event.headers['User-Agent']);
-  if (exchangeProxyRoutes.some(p => p.test(event.path))) {
-    oauth.request(event).then(resp => {
-      console.log(`[INFO] ${resp.status} ${resp.method} ${resp.path}`);
-      callback(null, {statusCode: resp.status, headers: resp.headers, body: resp.body, isBase64Encoded: true});
+  const loggedIn = util.isLoggedIn(event.headers['Cookie']);
+  const isCrawler = util.isCrawler(event.headers['User-Agent']);
+  const isMobile = util.isMobile(event.headers['User-Agent']);
+  const hatesMobile = util.hatesMobileSite(event.headers['Referer'], event.queryStringParameters);
+
+  // test paths
+  let route;
+  ROUTES.find(([matchers, obj]) => {
+    if (matchers.some(m => m.test(event.path, loggedIn, isCrawler, isMobile, hatesMobile))) {
+      return route = obj;
+    }
+  });
+
+  // async handle proxying or redirecting
+  if (route) {
+    route.request(event).then(resp => {
+      const name = route.constructor.name;
+      const path = `${route.host}${event.path}`;
+      console.log(`[INFO] ${name} ${resp.statusCode} ${event.httpMethod} ${path}`);
+      callback(null, resp);
     }).catch(err => {
       console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
       console.error(err);
-      callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
+      callback(null, ApiResponse.error('Something went wrong'));
     });
-  } else if (exchangeRedirectRoutes.some(p => p.test(event.path))) {
-    console.log(`[INFO] 302 ${event.httpMethod} ${event.path}`);
-    callback(null, exchange.redirect(event));
   } else {
-    corporate.request(event).then(resp => {
-      if (resp.originalPath) {
-        console.log(`[INFO] ${resp.status} ${resp.method} ${resp.originalPath} -> ${resp.path}`);
-      } else {
-        console.log(`[INFO] ${resp.status} ${resp.method} ${resp.path}`);
-      }
-      callback(null, {statusCode: resp.status, headers: resp.headers, body: resp.body, isBase64Encoded: true});
-    }).catch(err => {
-      console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
-      console.error(err);
-      callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
-    });
+    console.error(`[ERROR] No handler for ${event.httpMethod} ${event.path}`);
+    callback(null, ApiResponse.error('Something went wrong'));
   }
 }

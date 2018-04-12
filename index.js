@@ -4,7 +4,7 @@ const Proxy = require('./lib/proxy');
 const Redirect = require('./lib/redirect');
 const util = require('./lib/util');
 
-const HOSTS = (process.env.CANONICAL_HOSTS || 'proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
+const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
 
 const EXCHANGE_HOST = process.env.EXCHANGE_HOST || 'exchange.prx.org';
 const LISTEN_HOST = process.env.LISTEN_HOST || 'beta.prx.org';

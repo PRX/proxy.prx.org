@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Paths redirected to exchange
  */

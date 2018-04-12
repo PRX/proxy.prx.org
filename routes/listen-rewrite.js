@@ -17,7 +17,7 @@ module.exports = (path) => {
     return Promise.resolve(path.replace(ACCOUNTS, '/accounts/'));
   } else if (USERS.test(path)) {
     const userId = path.match(USERS)[1];
-    return cmsGet(`/api/v1/users/${userId}?zoom=prx:default-account`).then(json => {
+    return cmsGet(`/api/v1/users/${userId}`).then(json => {
       const defaultAccount = json['_links']['prx:default-account']['href'];
       const accountId = defaultAccount.split('/').pop();
       return `/accounts/${accountId}`;

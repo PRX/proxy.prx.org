@@ -58,7 +58,6 @@ module.exports = [
   /^\/feeds(\/|$)/,
   /^\/goforit(\/|$)/,
   /^\/google10234b29a16ea0f4(\/|$)/,
-  /^\/help(\/|$)/,
   /^\/labs(\/|$)/,
   /^\/newsletters(\/|$)/,
   /^\/onbeing(\/|$)/,

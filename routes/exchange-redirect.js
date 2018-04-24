@@ -36,6 +36,7 @@ module.exports = [
   /^\/series(\/|$)/,
   /^\/station(\/|$)/,
   /^\/station_accounts(\/|$)/,
+  /^\/subscriptions(\/|$)/,
   /^\/tag(\/|$)/,
   /^\/tone(\/|$)/,
   /^\/topic(\/|$)/,

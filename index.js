@@ -56,10 +56,10 @@ exports.handler = function handler(event, context, callback) {
     }).catch(err => {
       console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
       console.error(err);
-      callback(null, ApiResponse.error('Something went wrong'));
+      callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
     });
   } else {
     console.error(`[ERROR] No handler for ${event.httpMethod} ${event.path}`);
-    callback(null, ApiResponse.error('Something went wrong'));
+    callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
   }
 }

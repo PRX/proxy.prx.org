@@ -10,5 +10,6 @@ module.exports = [
   /^\/oauth_clients(\/|$)/,
   /^\/sessions(\/|$)/,
   /^\/sso(\/|$)/,
-  /^\/v1(\/|$)/
+  /^\/v1(\/|$)/,
+  /^\/utilities(\/|$)/
 ];

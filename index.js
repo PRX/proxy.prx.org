@@ -7,11 +7,13 @@ const util = require('./lib/util');
 const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
 
 const EXCHANGE_HOST = process.env.EXCHANGE_HOST || 'exchange.prx.org';
+const UNBOUNCE_HOST = process.env.UNBOUNCE_HOST || 'try.prx.org';
 const LISTEN_HOST = process.env.LISTEN_HOST || 'beta.prx.org';
 const HELP_HOST = process.env.HELP_HOST || 'help.prx.org';
 const CORPORATE_HOST = process.env.CORPORATE_HOST || 'corporate.prx.tech';
 const ROUTES = [
   [require('./routes/exchange-proxy'), new Proxy(EXCHANGE_HOST)],
+  [require('./routes/unbounce-proxy'), new Proxy(UNBOUNCE_HOST)],
   [require('./routes/listen-redirect'), new Redirect(LISTEN_HOST, require('./routes/listen-rewrite'))],
   [require('./routes/exchange-redirect'), new Redirect(EXCHANGE_HOST)],
   [require('./routes/help-redirect'), new Redirect(HELP_HOST, require('./routes/help-rewrite'))],

@@ -5,7 +5,6 @@
  */
 module.exports = [
   /^\/prx-sponsorship(\/|$)/,
-  /^\/sponsorship(\/|$)/,
   /^\/smithsonian-shows(\/|$)/,
   /^\/inflection-point(\/|$)/,
   /^\/que-pasa-midwest(\/|$)/,

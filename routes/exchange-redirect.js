@@ -64,7 +64,6 @@ module.exports = [
   /^\/onbeing(\/|$)/,
   /^\/podcasts(\/|$)/,
   /^\/podcasts-by-members(\/|$)/,
-  /^\/privacy-policy(\/|$)/,
   /^\/projects(\/|$)/,
   /^\/prpd2011(\/|$)/,
   /^\/remix(\/|$)/,

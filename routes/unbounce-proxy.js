@@ -33,6 +33,8 @@ module.exports = [
   /^\/esquire-classic(\/|$)/,
   /^\/reveal(\/|$)/,
   /^\/outside-magazine(\/|$)/,
+  /^\/outside-podcast(\/|$)/,
+  /^\/outside-pod(\/|$)/,
   /^\/htba(\/|$)/,
   /^\/hermoney(\/|$)/,
   /^\/orbital-path(\/|$)/,

@@ -20,6 +20,7 @@ module.exports = [
   /^\/trump-con-law(\/|$)/,
   /^\/theory-of-everything(\/|$)/,
   /^\/kitchen-sisters(\/|$)/,
+  /^\/the-truth(\/|$)/,
   /^\/the-truth-v2(\/|$)/,
   /^\/radio-diaries(\/|$)/,
   /^\/loveradio(\/|$)/,

@@ -15,6 +15,7 @@ module.exports = [
   /^\/west-wing-weekly(\/|$)/,
   /^\/ear-hustle(\/|$)/,
   /^\/the-memory-palace(\/|$)/,
+  /^\/memory-palace(\/|$)/,
   /^\/milk-street-radio(\/|$)/,
   /^\/this-is-love(\/|$)/,
   /^\/trump-con-law(\/|$)/,

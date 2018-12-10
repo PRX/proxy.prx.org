@@ -5,9 +5,12 @@ const handler = require('./index');
 const express = require('express');
 const bodyParser = require('body-parser');
 const typeis = require('type-is');
+const AWSXRay = require('aws-xray-sdk');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(AWSXRay.express.openSegment('defaultName'));               //required at the start of your routes
 
 // proxy request body
 app.use(bodyParser.raw({type: '*/*'}));
@@ -48,6 +51,8 @@ app.use((req, res) => {
     }
   });
 });
+
+app.use(AWSXRay.express.closeSegment());   //Required at the end of your routes / first in error handling routes
 
 // undo our api-gateway headers hack
 function fixMixedCaseHeaders(headers) {

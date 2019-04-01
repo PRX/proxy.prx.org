@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Just rewrite to root url
+ * Rewrite paths back to self
  */
 module.exports = (path) => {
   if (path.match(/^\/about-us\/contact/)) {

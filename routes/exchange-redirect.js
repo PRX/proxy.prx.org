@@ -43,7 +43,6 @@ module.exports = [
   /^\/user(\/|$)/,
   /^\/users(\/|$)/,
   // comatose
-  /^\/about-us(\/|$)/,
   /^\/americanroutes(\/|$)/,
   /^\/amgrad(\/|$)/,
   /^\/apps(\/|$)/,
@@ -52,7 +51,6 @@ module.exports = [
   /^\/blankonblank(\/|$)/,
   /^\/calculator(\/|$)/,
   /^\/cbcprograms(\/|$)/,
-  /^\/contact(\/|$)/,
   /^\/curators(\/|$)/,
   /^\/donate(\/|$)/,
   /^\/facebook(\/|$)/,

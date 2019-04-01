@@ -17,6 +17,7 @@ const ROUTES = [
   [require('./routes/listen-redirect'), new Redirect(LISTEN_HOST, require('./routes/listen-rewrite'))],
   [require('./routes/exchange-redirect'), new Redirect(EXCHANGE_HOST)],
   [require('./routes/help-redirect'), new Redirect(HELP_HOST, require('./routes/help-rewrite'))],
+  [require('./routes/self-redirect'), new Redirect(null, require('./routes/self-rewrite'))],
   [[/./], new Proxy(CORPORATE_HOST)],
 ];
 

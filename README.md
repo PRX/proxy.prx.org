@@ -42,7 +42,7 @@ to the new path.  See `routes/listen-rewrite.js` for an example.
 ## Install
 
 This application is intended to run as an AWS [API Gateway](https://aws.amazon.com/api-gateway/),
-but you can also test and develop it locally.  Make sure you have node 6.10
+but you can also test and develop it locally.  Make sure you have node 8.10
 installed ([nvm](https://github.com/creationix/nvm) is your friend), and a
 recent version of [yarn](https://yarnpkg.com/en/).
 

@@ -11,7 +11,7 @@
     "test": "jest",
     "build": "npm run build-sync && npm run build-prune && npm run build-zip",
     "build-sync": "rsync -crl --delete --exclude-from .lambdaignore . build",
-    "build-prune": "cd build && npm prune --production > /dev/null",
+    "build-prune": "cd build && yarn --production",
     "build-zip": "rm -f build.zip && cd build && zip -rq ../build.zip ."
   },
   "repository": "git@github.com:PRX/proxy.prx.org.git",

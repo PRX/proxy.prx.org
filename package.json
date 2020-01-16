@@ -2,7 +2,7 @@
   "name": "proxy.prx.org",
   "version": "0.0.1",
   "engines": {
-    "node": "8.10.0"
+    "node": ">= 8.10.0"
   },
   "description": "Top-level proxy server for www.prx.org",
   "main": "index.js",

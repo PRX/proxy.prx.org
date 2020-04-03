@@ -3,6 +3,4 @@
 /**
  * Paths redirected to www.pri.org
  */
-module.exports = [
-  /^\/support\/?$/
-];
+module.exports = [];

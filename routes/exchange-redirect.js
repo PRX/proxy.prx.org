@@ -66,7 +66,6 @@ module.exports = [
   /^\/podcasts-by-members(\/|$)/,
   /^\/projects(\/|$)/,
   /^\/prpd2011(\/|$)/,
-  /^\/remix(\/|$)/,
   /^\/shiftinggears(\/|$)/,
   /^\/site-ads(\/|$)/,
   /^\/site-status(\/|$)/,

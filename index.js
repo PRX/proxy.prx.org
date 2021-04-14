@@ -10,7 +10,7 @@ const EXCHANGE_HOST = process.env.EXCHANGE_HOST || 'exchange.prx.org';
 const UNBOUNCE_HOST = process.env.UNBOUNCE_HOST || 'try.prx.org';
 const LISTEN_HOST = process.env.LISTEN_HOST || 'beta.prx.org';
 const HELP_HOST = process.env.HELP_HOST || 'help.prx.org';
-const PRI_HOST = process.env.PRI_HOST || 'www.pri.org'
+const PRI_HOST = process.env.PRI_HOST || 'www.pri.org';
 const CORPORATE_HOST = process.env.CORPORATE_HOST || 'corporate.prx.tech';
 const ROUTES = [
   [require('./routes/exchange-proxy'), new Proxy(EXCHANGE_HOST)],
@@ -26,6 +26,9 @@ const ROUTES = [
  * Proxy requests here and there
  */
 exports.handler = function handler(event, context, callback) {
+  const apiId = event.requestContext.apiId;
+  HOSTS.push(`${apiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com`);
+
   const headers = util.keysToLowerCase(event.headers);
   const loggedIn = util.isLoggedIn(headers['cookie']);
   const isCrawler = util.isCrawler(headers['user-agent']);
@@ -37,7 +40,7 @@ exports.handler = function handler(event, context, callback) {
     const loc = `https://${HOSTS[0]}${event.path}${util.queryToString(event.queryStringParameters)}`;
     return callback(null, {
       statusCode: 302,
-      headers: {'location': loc, 'content-type': 'text/plain', },
+      headers: { 'location': loc, 'content-type': 'text/plain', },
       body: `Moved to ${loc}`
     });
   }

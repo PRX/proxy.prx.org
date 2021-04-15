@@ -15,7 +15,6 @@ const EXCHANGE_HOST = process.env.EXCHANGE_HOST || 'exchange.prx.org';
 const UNBOUNCE_HOST = process.env.UNBOUNCE_HOST || 'try.prx.org';
 const LISTEN_HOST = process.env.LISTEN_HOST || 'beta.prx.org';
 const HELP_HOST = process.env.HELP_HOST || 'help.prx.org';
-const PRI_HOST = process.env.PRI_HOST || 'www.pri.org'
 const CORPORATE_HOST = process.env.CORPORATE_HOST || 'corporate.prx.tech';
 const THEWORLD_HOST = process.env.THEWORLD_HOST || 'theworld.org';
 const THEWORLD_ADMIN_HOST = process.env.THEWORLD_ADMIN_HOST || 'admin.theworld.org';
@@ -28,7 +27,6 @@ const PRX_ROUTES = [
   [require('./routes/listen-redirect'), new Redirect(LISTEN_HOST, require('./routes/listen-rewrite'))],
   [require('./routes/exchange-redirect'), new Redirect(EXCHANGE_HOST)],
   [require('./routes/help-redirect'), new Redirect(HELP_HOST, require('./routes/help-rewrite'))],
-  [require('./routes/pri-redirect'), new Redirect(PRI_HOST)],
   [[/./], new Proxy(CORPORATE_HOST)],
 ];
 

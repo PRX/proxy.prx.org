@@ -41,6 +41,9 @@ const PRI_ROUTES = [
  * Proxy requests here and there
  */
 exports.handler = function handler(event, context, callback) {
+  const apiId = event.requestContext.apiId;
+  HOSTS.push(`${apiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com`);
+
   const headers = util.keysToLowerCase(event.headers);
 
   let route;

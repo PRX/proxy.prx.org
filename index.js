@@ -52,28 +52,25 @@ exports.handler = function handler(event, context, callback) {
         return route = obj;
       }
     });
-  } else {
+  } else if (HOSTS.includes(headers.host)) {
     // Handle prx.org traffic
     const loggedIn = util.isLoggedIn(headers['cookie']);
     const isCrawler = util.isCrawler(headers['user-agent']);
     const isMobile = util.isMobile(headers['user-agent']);
     const hatesMobile = util.hatesMobileSite(headers['referer'], event.queryStringParameters);
 
-    // make sure we're at a canonical host
-    if (HOSTS.length && headers['host'] && HOSTS.indexOf(headers['host']) === -1) {
-      const loc = `https://${HOSTS[0]}${event.path}${util.queryToString(event.queryStringParameters)}`;
-      return callback(null, {
-        statusCode: 302,
-        headers: {'location': loc, 'content-type': 'text/plain', },
-        body: `Moved to ${loc}`
-      });
-    }
-
     // test paths
     PRX_ROUTES.find(([matchers, obj]) => {
       if (matchers.some(m => m.test(event.path, loggedIn, isCrawler, isMobile, hatesMobile))) {
         return route = obj;
       }
+    });
+  } else {
+    const loc = `https://${HOSTS[0]}${event.path}${util.queryToString(event.queryStringParameters)}`;
+    return callback(null, {
+      statusCode: 302,
+      headers: { 'location': loc, 'content-type': 'text/plain' },
+      body: `Moved to ${loc}`
     });
   }
 

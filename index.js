@@ -6,7 +6,7 @@ const util = require('./lib/util');
 
 // These are the domains that this application is handling traffic for
 const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
-const PRI_HOSTS = ['pri.org', 'www.pri.org'];
+const PRI_HOSTS = ['pri.org', 'www.pri.org', 'www-proxy-test.pri.org'];
 
 // These are the domains that traffic is redirected to or used to fetch data
 // when being proxied. They are NOT domains for traffic being handled by this

@@ -100,4 +100,4 @@ exports.handler = function handler(event, context, callback) {
     console.error(`[ERROR] No handler for ${event.httpMethod} ${event.path}`);
     callback(null, {statusCode: 500, body: 'No handler for request', headers: {'content-type': 'text/plain'}});
   }
-}
+};

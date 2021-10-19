@@ -38,7 +38,7 @@ app.use((req, res) => {
       res.status(data.statusCode);
       res.set(fixMixedCaseHeaders(data.headers || {}));
       if (data.body && data.isBase64Encoded) {
-        const buff = Buffer.from(data.body, 'base64')
+        const buff = Buffer.from(data.body, 'base64');
         res.send(buff);
       } else if (data.body) {
         res.send(data.body);

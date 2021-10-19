@@ -1,15 +1,20 @@
 # PRX.org Proxy Server
 
-Top-level proxy server for www.prx.org.  Any requests coming to the www.prx.org
+Top-level proxy server for www.prx.org. Any requests coming to the www.prx.org
 domain will pass through this proxy, and either be:
 
 - Redirected to another site (Exchange, Beta, Listen)
 - Proxied in-place to another site (Corporate)
 
+Also handles traffic for `www.pri.org`. Different rule sets are used for each
+domain.
+
 ## Routing
 
 Incoming requests are routed on a combination of:
 
+1. Domain
+1. `x-prx-domain` header
 1. Path
 2. Logged in/out of PRX single sign on
 3. Is a web-crawler / bot
@@ -23,6 +28,11 @@ tend to redirect you to Beta/Listen.
 Any paths not explicitly indicated in the routes will fall through to the
 Corporate site proxy.  So you'll stay on the www.prx.org domain, and see the
 corporate site.
+
+When running as the origin behind a CDN, the proxy will not receive the viewer
+request domain (e.g., prx.org). The CDN can be configured to pass an
+`x-prx-domain` header with the origin request to indicate which rule set
+should be used to handle the request.
 
 ### Adding a route
 

@@ -9,6 +9,10 @@ const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.s
 const PRI_HOSTS = ['pri.org', 'www.pri.org', 'www-proxy-test.pri.org'];
 
 // Values set using the x-prx-domain header
+// This is for cases where the proxy is running behind a CDN and is not getting
+// the viewer request domain. It allow for explicit handling of traffic from
+// specific CDNs (i.e., different CDNs would handle different domains, like
+// one for prx.org and one for pri.org).
 const PRI_HEADER_DOMAIN = 'pri.org';
 
 // These are the domains that traffic is redirected to or used to fetch data

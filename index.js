@@ -19,6 +19,7 @@ const THEWORLD_HOST = process.env.THEWORLD_HOST || 'theworld.org';
 const THEWORLD_ADMIN_HOST = process.env.THEWORLD_ADMIN_HOST || 'admin.theworld.org';
 const THEWORLD_FEEDS_HOST = process.env.THEWORLD_FEEDS_HOST || 'feeds.theworld.org';
 const THEWORLD_FILES_HOST = process.env.THEWORLD_FILES_HOST || 'files.theworld.org';
+const THEWORLD_SITEMAP_HOST = process.env.THEWORLD_SITEMAP_HOST || 'sitemap.theworld.org';
 
 const PRX_ROUTES = [
   [require('./routes/exchange-proxy'), new Proxy(EXCHANGE_HOST)],
@@ -32,7 +33,7 @@ const PRI_ROUTES = [
   [require('./routes/pri-admin-redirect'), new Redirect(THEWORLD_ADMIN_HOST, null, true, 301)],
   [require('./routes/pri-feeds-redirect'), new Redirect(THEWORLD_FEEDS_HOST, null, true, 301)],
   [require('./routes/pri-files-redirect'), new Redirect(THEWORLD_FILES_HOST, null, true, 301)],
-  [require('./routes/pri-files-redirect'), new Redirect(THEWORLD_SITEMAP_HOST, null, true, 301)],
+  [require('./routes/pri-sitemap-redirect'), new Redirect(THEWORLD_SITEMAP_HOST, null, true, 301)],
   [[/./], new Redirect(THEWORLD_HOST, null, true, 301)],
 ];
 

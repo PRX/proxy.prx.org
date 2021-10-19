@@ -8,6 +8,9 @@ const util = require('./lib/util');
 const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
 const PRI_HOSTS = ['pri.org', 'www.pri.org', 'www-proxy-test.pri.org'];
 
+// Values set using the x-prx-domain header
+const PRI_HEADER_DOMAIN = 'pri.org';
+
 // These are the domains that traffic is redirected to or used to fetch data
 // when being proxied. They are NOT domains for traffic being handled by this
 // application.
@@ -48,7 +51,7 @@ exports.handler = function handler(event, context, callback) {
 
   let route;
 
-  if (PRI_HOSTS.includes(headers.host)) {
+  if (PRI_HOSTS.includes(headers.host) || headers['x-prx-domain'] === PRI_HEADER_DOMAIN) {
     // Handle pri.org traffic
     PRI_ROUTES.find(([matchers, obj]) => {
       if (matchers.some(m => m.test(event.path))) {

@@ -6,7 +6,7 @@ const util = require('./lib/util');
 
 // These are the domains that this application is handling traffic for
 const HOSTS = (process.env.CANONICAL_HOSTS || 'www.prx.org,proxy.prx.org,proxy.staging.prx.tech,localhost:3000').split(',');
-const PRI_HOSTS = ['pri.org', 'www.pri.org', 'www-proxy-test.pri.org'];
+const PRI_HOSTS = ['pri.org', 'www.pri.org', 'beta.pri.org', 'www-proxy-test.pri.org'];
 
 // Values set using the x-prx-domain header
 // This is for cases where the proxy is running behind a CDN and is not getting

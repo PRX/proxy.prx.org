@@ -54,8 +54,10 @@ exports.handler = function handler(event, context, callback) {
   const headers = util.keysToLowerCase(event.headers);
 
   let route;
+  let domain = 'default';
 
   if (PRI_HOSTS.includes(headers.host) || headers['x-prx-domain'] === PRI_HEADER_DOMAIN) {
+    domain = 'pri';
     // Handle pri.org traffic
     PRI_ROUTES.find(([matchers, obj]) => {
       if (matchers.some(m => m.test(event.path))) {
@@ -64,6 +66,7 @@ exports.handler = function handler(event, context, callback) {
     });
   } else if (HOSTS.includes(headers.host)) {
     // Handle prx.org traffic
+    domain = 'prx';
     const loggedIn = util.isLoggedIn(headers['cookie']);
     const isCrawler = util.isCrawler(headers['user-agent']);
     const isMobile = util.isMobile(headers['user-agent']);
@@ -89,7 +92,15 @@ exports.handler = function handler(event, context, callback) {
     route.request(event).then(resp => {
       const name = route.constructor.name;
       const path = `${route.host}${event.path}`;
-      console.log(`[INFO] ${name} ${resp.statusCode} ${event.httpMethod} ${path}`);
+
+      console.info(JSON.stringify({
+        statusCode: resp.statusCode,
+        httpMethod: event.httpMethod,
+        routeType: name,
+        routeDestination: path,
+        domain: domain,
+      }))
+
       callback(null, resp);
     }).catch(err => {
       console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);

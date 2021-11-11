@@ -39,7 +39,7 @@ const PRX_ROUTES = [
 
 const PRI_ROUTES = [
   [require('./routes/pri-admin-redirect'), new Redirect(THEWORLD_ADMIN_HOST, null, true, 301)],
-  [require('./routes/pri-embeds-redirect'), new Redirect(THEWORLD_EMBEDS_HOST, null, true, 301)],
+  [require('./routes/pri-embed-redirect'), new Redirect(THEWORLD_EMBEDS_HOST, null, true, 301)],
   [require('./routes/pri-feeds-redirect'), new Redirect(THEWORLD_FEEDS_HOST, null, true, 301)],
   [require('./routes/pri-files-redirect'), new Redirect(THEWORLD_FILES_HOST, null, true, 301)],
   [require('./routes/pri-sitemap-redirect'), new Redirect(THEWORLD_SITEMAP_HOST, null, true, 301)],

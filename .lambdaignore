@@ -3,7 +3,7 @@
 .git
 .gitignore
 .lambdaignore
-.nvmrc
+.tool-versions
 Dockerfile
 docker-compose.yml
 /build*

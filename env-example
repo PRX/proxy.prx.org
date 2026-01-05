@@ -1,8 +1,7 @@
 ##
 ## Application Environment Variables
 ##
-CANONICAL_HOSTS=localhost,127.0.0.1,proxy.prx.dev
-CMS_HOST=cms.prx.org
+CANONICAL_HOSTS=localhost:3000,127.0.0.1:3000,proxy.prx.test
 CORPORATE_HOST=corporate.prx.tech
 EXCHANGE_HOST=exchange.prx.org
 HELP_HOST=help.prx.org

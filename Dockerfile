@@ -1,4 +1,4 @@
-FROM lambci/lambda:build-nodejs10.x
+FROM public.ecr.aws/lambda/nodejs:24
 
 MAINTAINER PRX <sysadmin@prx.org>
 LABEL org.prx.lambda="true"
@@ -9,9 +9,10 @@ WORKDIR /app
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "test" ]
 
-RUN yum install -y rsync && yum clean all && rm -rf /var/cache/yum
+RUN dnf install -y rsync zip && dnf clean all
 ADD yarn.lock ./
 ADD package.json ./
 RUN npm install --quiet --global yarn && yarn install
+
 ADD . .
-RUN npm run build
+RUN yarn run build

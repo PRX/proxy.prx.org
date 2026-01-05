@@ -49,7 +49,7 @@ const PRI_ROUTES = [
 /**
  * Proxy requests here and there
  */
-exports.handler = function handler(event, context, callback) {
+exports.handler = function handler(event) {
   const apiId = event.requestContext.apiId;
   HOSTS.push(`${apiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com`);
 
@@ -82,11 +82,11 @@ exports.handler = function handler(event, context, callback) {
     });
   } else {
     const loc = `https://${HOSTS[0]}${event.path}${util.queryToString(event.queryStringParameters)}`;
-    return callback(null, {
+    return {
       statusCode: 302,
       headers: { 'location': loc, 'content-type': 'text/plain' },
       body: `Moved to ${loc}`
-    });
+    };
   }
 
   // async handle proxying or redirecting
@@ -103,14 +103,14 @@ exports.handler = function handler(event, context, callback) {
         domain: domain,
       }))
 
-      callback(null, resp);
+      return resp;
     }).catch(err => {
       console.error(`[ERROR] 500 ${event.httpMethod} ${event.path}`);
       console.error(err);
-      callback(null, {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}});
+      return {statusCode: 500, body: 'Something went wrong', headers: {'content-type': 'text/plain'}};
     });
   } else {
     console.error(`[ERROR] No handler for ${event.httpMethod} ${event.path}`);
-    callback(null, {statusCode: 500, body: 'No handler for request', headers: {'content-type': 'text/plain'}});
+    return {statusCode: 500, body: 'No handler for request', headers: {'content-type': 'text/plain'}};
   }
 };

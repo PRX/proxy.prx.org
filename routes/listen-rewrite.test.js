@@ -32,15 +32,9 @@ describe('listen-rewrite', () => {
     });
   });
 
-  test('rewrites users to their default account', () => {
-    const user = {_links: {'prx:default-account': {href: '/api/v1/accounts/5678'}}}
-    nock('https://cms.prx.org').get('/api/v1/users/1234').query(q => true).reply(200, JSON.stringify(user));
-    nock('https://cms.prx.org').get('/api/v1/users/4321').query(q => true).reply(500);
+  test('rewrites users', async () => {
     return rewrite('/users/1234').then(path => {
-      expect(path).toEqual('/accounts/5678');
-      return rewrite('/users/4321');
-    }).then(path => {
-      expect(path).toEqual('/users/4321');
+      expect(path).toEqual('/users/1234');
     });
   });
 

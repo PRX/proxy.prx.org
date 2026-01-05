@@ -91,7 +91,7 @@ exports.handler = async function handler(event) {
 
   // async handle proxying or redirecting
   if (route) {
-    route.request(event).then(resp => {
+    return route.request(event).then(resp => {
       const name = route.constructor.name;
       const path = `${route.host}${event.path}`;
 

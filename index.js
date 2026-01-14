@@ -50,7 +50,7 @@ const PRI_ROUTES = [
   [[/./], new Redirect(THEWORLD_HOST, null, true, 301)],
 ];
 
-const SOUNDRISE_REDIRECT = new Redirect(PRX_HOST, (_p) => Promise.resolve('/sponsorship'));
+const SOUNDRISE_REDIRECT = new Redirect(PRX_HOST, (_p) => Promise.resolve('/sponsorship'), true, 302);
 
 /**
  * Proxy requests here and there
